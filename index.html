@@ -327,7 +327,7 @@ function shapeSVG(s){
 }
 
 function fairPrice(type,carat,color,clarity,cut,shape){
-  const base = type==="lab" ? 780 : 5400;              // per-carat anchor (2026-ish; lab far cheaper)
+  const base = type==="lab" ? 950 : 2300;              // per-carat market anchor (calibrated to real listings)
   const caratF = Math.pow(carat,1.9);
   let p = base*caratF*COLOR_M[color]*CLAR_M[clarity]*CUT_M[cut]*SHAPE_M[shape];
   return p;
@@ -353,7 +353,29 @@ function genDiamonds(n){
   }
   return out;
 }
-const DATA = genDiamonds(340);
+/* ---------- real inventory (Blue Nile, natural, GIA-certified) — temporary curated set with exact product links ---------- */
+const RAW=[
+  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2689,u:"27103543"},
+  {shape:"Round",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2695,u:"29142735"},
+  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2713,u:"29257708"},
+  {shape:"Round",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2732,u:"28822991"},
+  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2793,u:"29514826"},
+  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2835,u:"28633372"},
+  {shape:"Oval",carat:1.01,color:"H",clarity:"VS2",cut:"Ideal",price:2606,u:"29744374"},
+  {shape:"Oval",carat:1.01,color:"H",clarity:"VS2",cut:"Very Good",price:2624,u:"28564758"},
+  {shape:"Oval",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2629,u:"28564761"},
+  {shape:"Oval",carat:1.01,color:"H",clarity:"VS2",cut:"Very Good",price:2654,u:"28565130"},
+  {shape:"Oval",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2659,u:"28564774"},
+  {shape:"Emerald",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2000,u:"29224038"},
+  {shape:"Emerald",carat:1.01,color:"H",clarity:"VS2",cut:"Very Good",price:2033,u:"28541457"},
+  {shape:"Emerald",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2105,u:"28725331"},
+  {shape:"Emerald",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2137,u:"27972763"}
+];
+const DATA = RAW.map((d,i)=>({
+  id:i, type:"natural", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price,
+  fair: Math.round(fairPrice("natural", d.carat, d.color, d.clarity, d.cut, d.shape)),
+  retailer:{ name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u }
+}));
 
 /* ---------- state ---------- */
 const state={type:"all",shapes:new Set(),cuts:new Set(),
