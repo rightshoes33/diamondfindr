@@ -286,7 +286,7 @@ const DIAGRAM={"round": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/
 const SHAPES=["Round","Oval","Cushion","Princess","Emerald","Pear","Radiant","Marquise","Asscher","Heart"];
 const COLORS=["D","E","F","G","H","I","J","K"];
 const CLARITIES=["FL","IF","VVS1","VVS2","VS1","VS2","SI1","SI2","I1"];
-const CUTS=["Ideal","Very Good","Good"];
+const CUTS=["Ideal","Excellent","Very Good","Good"];
 const RETAILERS=[
   {name:"Blue Nile",url:"https://www.bluenile.com/diamonds"},
   {name:"Brilliant Earth",url:"https://www.brilliantearth.com/diamond/"},
@@ -300,7 +300,7 @@ const RETAILERS=[
 /* multipliers for the fair-price model */
 const COLOR_M={D:1.30,E:1.22,F:1.15,G:1.06,H:1.00,I:0.90,J:0.80,K:0.72};
 const CLAR_M={FL:1.45,IF:1.35,VVS1:1.25,VVS2:1.18,VS1:1.10,VS2:1.03,SI1:0.92,SI2:0.82,I1:0.65};
-const CUT_M={"Ideal":1.08,"Very Good":1.00,"Good":0.90};
+const CUT_M={"Ideal":1.08,"Excellent":1.06,"Very Good":1.00,"Good":0.90};
 const SHAPE_M={Round:1.15,Oval:1.02,Cushion:0.98,Princess:0.95,Emerald:0.94,Pear:1.00,Radiant:0.96,Marquise:0.97,Asscher:0.92,Heart:0.99};
 
 /* seeded RNG for stable demo data */
@@ -327,8 +327,8 @@ function shapeSVG(s){
 }
 
 function fairPrice(type,carat,color,clarity,cut,shape){
-  const base = type==="lab" ? 950 : 2300;              // per-carat market anchor (calibrated to real listings)
-  const caratF = Math.pow(carat,1.9);
+  const base = type==="lab" ? 295 : 2300;              // per-carat market anchor (calibrated to real listings)
+  const caratF = Math.pow(carat, type==="lab" ? 1.5 : 1.9);  // lab pricing is flatter across carat
   let p = base*caratF*COLOR_M[color]*CLAR_M[clarity]*CUT_M[cut]*SHAPE_M[shape];
   return p;
 }
@@ -371,11 +371,21 @@ const RAW=[
   {shape:"Emerald",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2105,u:"28725331"},
   {shape:"Emerald",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2137,u:"27972763"}
 ];
-const DATA = RAW.map((d,i)=>({
-  id:i, type:"natural", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price,
-  fair: Math.round(fairPrice("natural", d.carat, d.color, d.clarity, d.cut, d.shape)),
-  retailer:{ name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u }
-}));
+/* ---------- real lab-grown inventory (Clean Origin, IGI-certified) — temporary curated set with exact product links ---------- */
+const LAB=[
+  {shape:"Round",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-948969c99020/"},
+  {shape:"Oval",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/oval-lab-grown-diamond-59411174ea01/"},
+  {shape:"Marquise",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/marquise-lab-grown-diamond-b7ce4be257b5/"},
+  {shape:"Radiant",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/radiant-lab-grown-diamond-164d17ad43ee/"},
+  {shape:"Round",carat:3.03,color:"D",clarity:"VVS2",cut:"Excellent",price:2000,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-aed8ba43e8ac/"},
+  {shape:"Cushion",carat:3.03,color:"D",clarity:"VVS2",cut:"Excellent",price:2000,url:"https://www.cleanorigin.com/diamonds/cushion-lab-grown-diamond-c0951aabc407/"},
+  {shape:"Marquise",carat:3.03,color:"D",clarity:"VVS2",cut:"Excellent",price:2000,url:"https://www.cleanorigin.com/diamonds/marquise-lab-grown-diamond-a3fd259725da/"},
+  {shape:"Round",carat:3.64,color:"D",clarity:"VS1",cut:"Excellent",price:2005,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-182471dab6ae/"}
+];
+const DATA = [
+  ...RAW.map(d=>({type:"natural", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u}})),
+  ...LAB.map(d=>({type:"lab", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Clean Origin", url:d.url}}))
+].map((d,i)=>({ id:i, type:d.type, shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, fair:Math.round(fairPrice(d.type,d.carat,d.color,d.clarity,d.cut,d.shape)), retailer:d.retailer }));
 
 /* ---------- state ---------- */
 const state={type:"all",shapes:new Set(),cuts:new Set(),
