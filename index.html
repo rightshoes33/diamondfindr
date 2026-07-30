@@ -244,6 +244,11 @@
         <h3>Cut</h3>
         <div class="chips" id="cutChips"></div>
       </div>
+
+      <div class="fgroup">
+        <h3>Certification</h3>
+        <div class="chips" id="certChips"></div>
+      </div>
     </aside>
 
     <!-- RESULTS -->
@@ -287,6 +292,7 @@ const SHAPES=["Round","Oval","Cushion","Princess","Emerald","Pear","Radiant","Ma
 const COLORS=["D","E","F","G","H","I","J","K"];
 const CLARITIES=["FL","IF","VVS1","VVS2","VS1","VS2","SI1","SI2","I1"];
 const CUTS=["Ideal","Excellent","Very Good","Good"];
+const CERTS=["GIA","IGI"];
 const RETAILERS=[
   {name:"Blue Nile",url:"https://www.bluenile.com/diamonds"},
   {name:"Brilliant Earth",url:"https://www.brilliantearth.com/diamond/"},
@@ -383,12 +389,12 @@ const LAB=[
   {shape:"Round",carat:3.64,color:"D",clarity:"VS1",cut:"Excellent",price:2005,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-182471dab6ae/"}
 ];
 const DATA = [
-  ...RAW.map(d=>({type:"natural", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u}})),
-  ...LAB.map(d=>({type:"lab", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Clean Origin", url:d.url}}))
-].map((d,i)=>({ id:i, type:d.type, shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, fair:Math.round(fairPrice(d.type,d.carat,d.color,d.clarity,d.cut,d.shape)), retailer:d.retailer }));
+  ...RAW.map(d=>({type:"natural", cert:"GIA", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u}})),
+  ...LAB.map(d=>({type:"lab", cert:"IGI", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Clean Origin", url:d.url}}))
+].map((d,i)=>({ id:i, type:d.type, cert:d.cert, shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, fair:Math.round(fairPrice(d.type,d.carat,d.color,d.clarity,d.cut,d.shape)), retailer:d.retailer }));
 
 /* ---------- state ---------- */
-const state={type:"all",shapes:new Set(),cuts:new Set(),
+const state={type:"all",shapes:new Set(),cuts:new Set(),certs:new Set(),
   caratMin:0.3,caratMax:5,priceMin:0,priceMax:50000,
   colorFrom:0,colorTo:COLORS.length-1,clarityFrom:0,clarityTo:CLARITIES.length-1,sort:"value"};
 
@@ -403,6 +409,11 @@ const cutEls={};
 CUTS.forEach(s=>{const c=document.createElement("div");c.className="chip cut-chip";c.textContent=s;
   c.onclick=()=>{c.classList.toggle("on");if(state.cuts.has(s))state.cuts.delete(s);else state.cuts.add(s);render();};
   cutEls[s]=c;cutChips.appendChild(c);});
+const certChips=document.getElementById("certChips");
+const certEls={};
+CERTS.forEach(s=>{const c=document.createElement("div");c.className="chip cut-chip";c.textContent=s;
+  c.onclick=()=>{c.classList.toggle("on");if(state.certs.has(s))state.certs.delete(s);else state.certs.add(s);render();};
+  certEls[s]=c;certChips.appendChild(c);});
 
 function fillSel(el,arr){arr.forEach((v,i)=>{const o=document.createElement("option");o.value=i;o.textContent=v;el.appendChild(o);});}
 const colorFrom=document.getElementById("colorFrom"),colorTo=document.getElementById("colorTo");
@@ -444,7 +455,7 @@ document.getElementById("sort").onchange=e=>{state.sort=e.target.value;render();
 
 /* reset */
 function resetAll(){
-  state.type="all";state.shapes.clear();state.cuts.clear();
+  state.type="all";state.shapes.clear();state.cuts.clear();state.certs.clear();
   state.caratMin=0.3;state.caratMax=5;state.priceMin=0;state.priceMax=50000;
   state.colorFrom=0;state.colorTo=COLORS.length-1;state.clarityFrom=0;state.clarityTo=CLARITIES.length-1;state.sort="value";
   document.querySelectorAll(".chip.on").forEach(c=>c.classList.remove("on"));
@@ -470,6 +481,7 @@ function render(){
     if(state.type!=="all"&&d.type!==state.type)return false;
     if(state.shapes.size&&!state.shapes.has(d.shape))return false;
     if(state.cuts.size&&!state.cuts.has(d.cut))return false;
+    if(state.certs.size&&!state.certs.has(d.cert))return false;
     if(d.carat<state.caratMin||d.carat>state.caratMax)return false;
     if(d.price<state.priceMin||(state.priceMax<50000&&d.price>state.priceMax))return false;
     const ci=COLORS.indexOf(d.color); if(ci<state.colorFrom||ci>state.colorTo)return false;
@@ -499,6 +511,7 @@ function render(){
             <span class="type ${d.type}">${d.type==="lab"?"Lab grown":"Natural"}</span>
           </div>
           <div class="attrs">
+            <span class="attr cert"><i>Cert</i> ${d.cert}</span>
             <span class="attr"><i>Color</i> ${d.color}</span>
             <span class="attr"><i>Clarity</i> ${d.clarity}</span>
             <span class="attr"><i>Cut</i> ${d.cut}</span>
