@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="diamondfindr-favicon.svg" type="image/svg+xml">
 <script defer data-domain="diamondfindr.com" src="https://plausible.io/js/script.outbound-links.js"></script>
-<title>DiamondFindr — Diamond Finder (Prototype)</title>
+<title>DiamondFindr — Compare Diamond Prices, Ranked by Value</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&display=swap" rel="stylesheet">
@@ -293,26 +293,11 @@ const COLORS=["D","E","F","G","H","I","J","K"];
 const CLARITIES=["FL","IF","VVS1","VVS2","VS1","VS2","SI1","SI2","I1"];
 const CUTS=["Ideal","Excellent","Very Good","Good"];
 const CERTS=["GIA","IGI"];
-const RETAILERS=[
-  {name:"Blue Nile",url:"https://www.bluenile.com/diamonds"},
-  {name:"Brilliant Earth",url:"https://www.brilliantearth.com/diamond/"},
-  {name:"Whiteflash",url:"https://www.whiteflash.com/loose-diamonds/"},
-  {name:"Ritani",url:"https://www.ritani.com/collections/diamonds"},
-  {name:"With Clarity",url:"https://www.withclarity.com/collections/natural-diamonds"},
-  {name:"Grown Brilliance",url:"https://www.grownbrilliance.com/start-with-a-lab-grown-diamond"},
-  {name:"Clean Origin",url:"https://www.cleanorigin.com/loose-diamonds/"}
-];
-
 /* multipliers for the fair-price model */
 const COLOR_M={D:1.30,E:1.22,F:1.15,G:1.06,H:1.00,I:0.90,J:0.80,K:0.72};
 const CLAR_M={FL:1.45,IF:1.35,VVS1:1.25,VVS2:1.18,VS1:1.10,VS2:1.03,SI1:0.92,SI2:0.82,I1:0.65};
 const CUT_M={"Ideal":1.08,"Excellent":1.06,"Very Good":1.00,"Good":0.90};
 const SHAPE_M={Round:1.15,Oval:1.02,Cushion:0.98,Princess:0.95,Emerald:0.94,Pear:1.00,Radiant:0.96,Marquise:0.97,Asscher:0.92,Heart:0.99};
-
-/* seeded RNG for stable demo data */
-let seed=20260720;
-function rnd(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;}
-function pick(a){return a[Math.floor(rnd()*a.length)];}
 
 /* ---------- generic shape illustrations (SVG, not real photos) ---------- */
 function shapeSVG(s){
@@ -339,27 +324,7 @@ function fairPrice(type,carat,color,clarity,cut,shape){
   return p;
 }
 
-/* ---------- generate sample inventory ---------- */
-function genDiamonds(n){
-  const out=[];
-  for(let i=0;i<n;i++){
-    const type = rnd()<0.5 ? "lab":"natural";
-    const shape = pick(SHAPES);
-    // carat distribution: cluster around popular sizes
-    let carat = [0.5,0.7,0.9,1.0,1.2,1.5,1.7,2.0,2.5,3.0][Math.floor(rnd()*10)] + Math.round(rnd()*20)/100;
-    carat = Math.min(5, Math.max(0.3, +carat.toFixed(2)));
-    const color = pick(COLORS);
-    const clarity = pick(CLARITIES);
-    const cut = shape==="Round" ? pick(CUTS) : pick(["Ideal","Very Good","Good","Very Good"]);
-    const fair = fairPrice(type,carat,color,clarity,cut,shape);
-    const dealFactor = 0.80 + rnd()*0.42;              // 0.80–1.22 of fair
-    const price = Math.round(fair*dealFactor/10)*10;
-    const retailer = pick(RETAILERS);
-    out.push({id:i,type,shape,carat,color,clarity,cut,price,fair:Math.round(fair),retailer});
-  }
-  return out;
-}
-/* ---------- real inventory (Blue Nile, natural, GIA-certified) — temporary curated set with exact product links ---------- */
+/* ---------- inventory: Blue Nile, natural, GIA-certified — curated set with exact product links ---------- */
 const RAW=[
   {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2689,u:"27103543"},
   {shape:"Round",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2695,u:"29142735"},
@@ -377,7 +342,7 @@ const RAW=[
   {shape:"Emerald",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2105,u:"28725331"},
   {shape:"Emerald",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2137,u:"27972763"}
 ];
-/* ---------- real lab-grown inventory (Clean Origin, IGI-certified) — temporary curated set with exact product links ---------- */
+/* ---------- inventory: Clean Origin, lab-grown, IGI-certified — curated set with exact product links ---------- */
 const LAB=[
   {shape:"Round",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-948969c99020/"},
   {shape:"Oval",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/oval-lab-grown-diamond-59411174ea01/"},
@@ -501,8 +466,8 @@ function render(){
     const b=badge(d);
     return `<div class="row">
       <div class="rowmain">
-        <div class="thumb" title="Hover to see the ${d.shape.toLowerCase()} facet diagram — photo is a sample, not the actual stone">
-          <div class="tile"><img src="${IMG[d.shape.toLowerCase()]}" alt="${d.shape} cut diamond (sample)" loading="lazy"><div class="diagram">${DIAGRAM[d.shape.toLowerCase()]}</div></div>
+        <div class="thumb" title="Hover to see the ${d.shape.toLowerCase()} facet diagram — image is a representative ${d.shape.toLowerCase()} cut, not the actual stone">
+          <div class="tile"><img src="${IMG[d.shape.toLowerCase()]}" alt="${d.shape} cut diamond" loading="lazy"><div class="diagram">${DIAGRAM[d.shape.toLowerCase()]}</div></div>
         </div>
         <div class="specwrap">
           <div class="spec">
