@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://diamondfindr.com/sitemap.xml
