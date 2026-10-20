@@ -325,34 +325,9 @@ function fairPrice(type,carat,color,clarity,cut,shape){
 }
 
 /* ---------- inventory: Blue Nile, natural, GIA-certified — curated set with exact product links ---------- */
-const RAW=[
-  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2689,u:"27103543"},
-  {shape:"Round",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2695,u:"29142735"},
-  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2713,u:"29257708"},
-  {shape:"Round",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2732,u:"28822991"},
-  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2793,u:"29514826"},
-  {shape:"Round",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2835,u:"28633372"},
-  {shape:"Oval",carat:1.01,color:"H",clarity:"VS2",cut:"Ideal",price:2606,u:"29744374"},
-  {shape:"Oval",carat:1.01,color:"H",clarity:"VS2",cut:"Very Good",price:2624,u:"28564758"},
-  {shape:"Oval",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2629,u:"28564761"},
-  {shape:"Oval",carat:1.01,color:"H",clarity:"VS2",cut:"Very Good",price:2654,u:"28565130"},
-  {shape:"Oval",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2659,u:"28564774"},
-  {shape:"Emerald",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2000,u:"29224038"},
-  {shape:"Emerald",carat:1.01,color:"H",clarity:"VS2",cut:"Very Good",price:2033,u:"28541457"},
-  {shape:"Emerald",carat:1.00,color:"G",clarity:"VS2",cut:"Very Good",price:2105,u:"28725331"},
-  {shape:"Emerald",carat:1.00,color:"H",clarity:"VS2",cut:"Very Good",price:2137,u:"27972763"}
-];
+const RAW=[];
 /* ---------- inventory: Clean Origin, lab-grown, IGI-certified — curated set with exact product links ---------- */
-const LAB=[
-  {shape:"Round",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-948969c99020/"},
-  {shape:"Oval",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/oval-lab-grown-diamond-59411174ea01/"},
-  {shape:"Marquise",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/marquise-lab-grown-diamond-b7ce4be257b5/"},
-  {shape:"Radiant",carat:1.50,color:"D",clarity:"VS2",cut:"Excellent",price:750,url:"https://www.cleanorigin.com/diamonds/radiant-lab-grown-diamond-164d17ad43ee/"},
-  {shape:"Round",carat:3.03,color:"D",clarity:"VVS2",cut:"Excellent",price:2000,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-aed8ba43e8ac/"},
-  {shape:"Cushion",carat:3.03,color:"D",clarity:"VVS2",cut:"Excellent",price:2000,url:"https://www.cleanorigin.com/diamonds/cushion-lab-grown-diamond-c0951aabc407/"},
-  {shape:"Marquise",carat:3.03,color:"D",clarity:"VVS2",cut:"Excellent",price:2000,url:"https://www.cleanorigin.com/diamonds/marquise-lab-grown-diamond-a3fd259725da/"},
-  {shape:"Round",carat:3.64,color:"D",clarity:"VS1",cut:"Excellent",price:2005,url:"https://www.cleanorigin.com/diamonds/round-lab-grown-diamond-182471dab6ae/"}
-];
+const LAB=[];
 const DATA = [
   ...RAW.map(d=>({type:"natural", cert:"GIA", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u}})),
   ...LAB.map(d=>({type:"lab", cert:"IGI", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Clean Origin", url:d.url}}))
@@ -461,7 +436,9 @@ function render(){
   });
   document.getElementById("resultCount").textContent=f.length.toLocaleString();
   const box=document.getElementById("results");
-  if(!f.length){box.innerHTML=`<div class="empty"><b>No diamonds match these filters</b>Try widening your carat or price range, or resetting a filter.</div>`;return;}
+  if(!f.length){box.innerHTML = DATA.length===0
+    ? `<div class="empty"><b>We're refreshing our diamond inventory</b>New, verified listings are on the way. In the meantime, explore our <a href="guides.html">diamond buying guides</a>.</div>`
+    : `<div class="empty"><b>No diamonds match these filters</b>Try widening your carat or price range, or resetting a filter.</div>`;return;}
   box.innerHTML=f.slice(0,120).map(d=>{
     const b=badge(d);
     return `<div class="row">
