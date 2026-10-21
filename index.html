@@ -318,19 +318,64 @@ function shapeSVG(s){
 }
 
 function fairPrice(type,carat,color,clarity,cut,shape){
-  const base = type==="lab" ? 295 : 2300;              // per-carat market anchor (calibrated to real listings)
+  const base = type==="lab" ? 440 : 2300;              // per-carat market anchor (calibrated to real listings)
   const caratF = Math.pow(carat, type==="lab" ? 1.5 : 1.9);  // lab pricing is flatter across carat
   let p = base*caratF*COLOR_M[color]*CLAR_M[clarity]*CUT_M[cut]*SHAPE_M[shape];
   return p;
 }
 
 /* ---------- inventory: Blue Nile, natural, GIA-certified — curated set with exact product links ---------- */
-const RAW=[];
-/* ---------- inventory: Clean Origin, lab-grown, IGI-certified — curated set with exact product links ---------- */
-const LAB=[];
+const RAW=[
+  {shape:"Asscher",carat:1.02,color:"H",clarity:"SI1",cut:"Very Good",price:1401,u:"14143614"},
+  {shape:"Asscher",carat:1.00,color:"G",clarity:"SI1",cut:"Very Good",price:1527,u:"29514455"},
+  {shape:"Emerald",carat:1.00,color:"D",clarity:"VVS2",cut:"Very Good",price:3457,u:"29585551"},
+  {shape:"Heart",carat:1.00,color:"H",clarity:"SI1",cut:"Ideal",price:1527,u:"27302046"},
+  {shape:"Heart",carat:1.00,color:"H",clarity:"SI1",cut:"Ideal",price:1541,u:"27605058"},
+  {shape:"Heart",carat:1.00,color:"H",clarity:"SI1",cut:"Ideal",price:1585,u:"26541386"},
+  {shape:"Princess",carat:1.00,color:"I",clarity:"SI1",cut:"Ideal",price:1560,u:"28156682"},
+  {shape:"Princess",carat:1.11,color:"D",clarity:"VVS2",cut:"Ideal",price:5458,u:"29623017"},
+  {shape:"Princess",carat:1.60,color:"D",clarity:"VVS2",cut:"Ideal",price:10950,u:"26815968"},
+  {shape:"Radiant",carat:1.00,color:"I",clarity:"SI1",cut:"Ideal",price:1264,u:"28716015"},
+  {shape:"Round",carat:1.20,color:"E",clarity:"SI1",cut:"Very Good",price:4268,u:"30018112"},
+  {shape:"Round",carat:1.50,color:"E",clarity:"SI1",cut:"Excellent",price:8513,u:"29922631"},
+  {shape:"Round",carat:1.63,color:"D",clarity:"SI1",cut:"Excellent",price:10520,u:"29478023"}
+];
+/* ---------- inventory: Blue Nile, lab-grown, IGI-certified — curated set with exact product links ---------- */
+const LAB=[
+  {shape:"Asscher",carat:1.53,color:"E",clarity:"VS1",cut:"Excellent",price:1123,u:"27986214"},
+  {shape:"Asscher",carat:1.68,color:"E",clarity:"VVS2",cut:"Excellent",price:1594,u:"29047678"},
+  {shape:"Asscher",carat:1.88,color:"E",clarity:"VVS2",cut:"Excellent",price:1827,u:"27934397"},
+  {shape:"Oval",carat:1.50,color:"D",clarity:"VS1",cut:"Excellent",price:1128,u:"29965985"},
+  {shape:"Oval",carat:1.62,color:"D",clarity:"VS1",cut:"Excellent",price:1369,u:"29965982"},
+  {shape:"Oval",carat:1.71,color:"E",clarity:"VS1",cut:"Excellent",price:1400,u:"29729224"},
+  {shape:"Cushion",carat:1.59,color:"E",clarity:"VVS2",cut:"Excellent",price:1361,u:"29029221"},
+  {shape:"Cushion",carat:1.70,color:"E",clarity:"VS1",cut:"Ideal",price:1380,u:"26138835"},
+  {shape:"Cushion",carat:1.51,color:"D",clarity:"VVS2",cut:"Excellent",price:1476,u:"26895998"},
+  {shape:"Pear",carat:1.50,color:"E",clarity:"VS1",cut:"Excellent",price:1090,u:"29938545"},
+  {shape:"Pear",carat:1.54,color:"E",clarity:"VS1",cut:"Excellent",price:1119,u:"29881644"},
+  {shape:"Pear",carat:1.57,color:"E",clarity:"VS1",cut:"Excellent",price:1140,u:"29479208"},
+  {shape:"Princess",carat:1.53,color:"E",clarity:"VS1",cut:"Excellent",price:1105,u:"29461159"},
+  {shape:"Princess",carat:1.57,color:"E",clarity:"VS1",cut:"Excellent",price:1133,u:"29966123"},
+  {shape:"Princess",carat:1.54,color:"D",clarity:"VS1",cut:"Excellent",price:1178,u:"29469614"},
+  {shape:"Round",carat:1.56,color:"E",clarity:"VS1",cut:"Ideal",price:1044,u:"30030846"},
+  {shape:"Round",carat:1.59,color:"D",clarity:"VS1",cut:"Ideal",price:1070,u:"29966602"},
+  {shape:"Round",carat:1.61,color:"E",clarity:"VS1",cut:"Ideal",price:1161,u:"29938526"},
+  {shape:"Emerald",carat:1.53,color:"E",clarity:"VS1",cut:"Excellent",price:1065,u:"29967615"},
+  {shape:"Emerald",carat:1.53,color:"E",clarity:"VVS2",cut:"Excellent",price:1298,u:"29881539"},
+  {shape:"Emerald",carat:1.60,color:"E",clarity:"VVS2",cut:"Excellent",price:1442,u:"28961555"},
+  {shape:"Radiant",carat:1.53,color:"E",clarity:"VS1",cut:"Ideal",price:1062,u:"24979436"},
+  {shape:"Radiant",carat:1.57,color:"E",clarity:"VS1",cut:"Excellent",price:1089,u:"29824863"},
+  {shape:"Radiant",carat:1.55,color:"D",clarity:"VS1",cut:"Excellent",price:1139,u:"29824971"},
+  {shape:"Marquise",carat:1.52,color:"E",clarity:"VS1",cut:"Excellent",price:1084,u:"30090118"},
+  {shape:"Marquise",carat:1.67,color:"E",clarity:"VS1",cut:"Excellent",price:1291,u:"29392920"},
+  {shape:"Marquise",carat:1.76,color:"E",clarity:"VS1",cut:"Excellent",price:1447,u:"29990296"},
+  {shape:"Heart",carat:1.54,color:"E",clarity:"VS1",cut:"Ideal",price:1122,u:"26137210"},
+  {shape:"Heart",carat:1.68,color:"D",clarity:"VS1",cut:"Excellent",price:1456,u:"27350353"},
+  {shape:"Heart",carat:1.57,color:"D",clarity:"VVS2",cut:"Excellent",price:1588,u:"27746849"}
+];
 const DATA = [
   ...RAW.map(d=>({type:"natural", cert:"GIA", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u}})),
-  ...LAB.map(d=>({type:"lab", cert:"IGI", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Clean Origin", url:d.url}}))
+  ...LAB.map(d=>({type:"lab", cert:"IGI", shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, retailer:{name:"Blue Nile", url:"https://www.bluenile.com/diamond-details/"+d.u}}))
 ].map((d,i)=>({ id:i, type:d.type, cert:d.cert, shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, fair:Math.round(fairPrice(d.type,d.carat,d.color,d.clarity,d.cut,d.shape)), retailer:d.retailer }));
 
 /* ---------- state ---------- */
