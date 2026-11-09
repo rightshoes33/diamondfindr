@@ -208,11 +208,11 @@
 
       <div class="fgroup">
         <h3>Carat</h3>
-        <div class="vals"><span id="caratMinLbl">0.30 ct</span><span id="caratMaxLbl">5.00 ct</span></div>
+        <div class="vals"><span id="caratMinLbl">0.30 ct</span><span id="caratMaxLbl">6.00 ct</span></div>
         <div class="dual">
           <div class="track"></div><div class="fill" id="caratFill"></div>
-          <input type="range" id="caratMin" min="0.3" max="5" step="0.1" value="0.3">
-          <input type="range" id="caratMax" min="0.3" max="5" step="0.1" value="5">
+          <input type="range" id="caratMin" min="0.3" max="6" step="0.1" value="0.3">
+          <input type="range" id="caratMax" min="0.3" max="6" step="0.1" value="6">
         </div>
       </div>
 
@@ -500,7 +500,7 @@ const DATA = STONES.map((d,i)=>({ id:i, type:d.type, cert:d.cert, shape:d.shape,
 
 /* ---------- state ---------- */
 const state={type:"all",shapes:new Set(),cuts:new Set(),certs:new Set(),
-  caratMin:0.3,caratMax:5,priceMin:0,priceMax:50000,
+  caratMin:0.3,caratMax:6,priceMin:0,priceMax:50000,
   colorFrom:0,colorTo:COLORS.length-1,clarityFrom:0,clarityTo:CLARITIES.length-1,sort:"value"};
 
 /* ---------- build filter UI ---------- */
@@ -561,11 +561,11 @@ document.getElementById("sort").onchange=e=>{state.sort=e.target.value;render();
 /* reset */
 function resetAll(){
   state.type="all";state.shapes.clear();state.cuts.clear();state.certs.clear();
-  state.caratMin=0.3;state.caratMax=5;state.priceMin=0;state.priceMax=50000;
+  state.caratMin=0.3;state.caratMax=6;state.priceMin=0;state.priceMax=50000;
   state.colorFrom=0;state.colorTo=COLORS.length-1;state.clarityFrom=0;state.clarityTo=CLARITIES.length-1;state.sort="value";
   document.querySelectorAll(".chip.on").forEach(c=>c.classList.remove("on"));
   document.querySelectorAll("#typeSeg button").forEach((x,i)=>x.classList.toggle("on",i===0));
-  caratMin.value=0.3;caratMax.value=5;priceMin.value=0;priceMax.value=50000;
+  caratMin.value=0.3;caratMax.value=6;priceMin.value=0;priceMax.value=50000;
   colorFrom.value=0;colorTo.value=COLORS.length-1;clarityFrom.value=0;clarityTo.value=CLARITIES.length-1;
   document.getElementById("sort").value="value";
   syncCarat();syncPrice();render();
