@@ -211,8 +211,8 @@
         <div class="vals"><span id="caratMinLbl">0.30 ct</span><span id="caratMaxLbl">6.00 ct</span></div>
         <div class="dual">
           <div class="track"></div><div class="fill" id="caratFill"></div>
-          <input type="range" id="caratMin" min="0.3" max="6" step="0.1" value="0.3">
-          <input type="range" id="caratMax" min="0.3" max="6" step="0.1" value="6">
+          <input type="range" id="caratMin" min="0.3" max="6" step="0.05" value="0.3">
+          <input type="range" id="caratMax" min="0.3" max="6" step="0.05" value="6">
         </div>
       </div>
 
@@ -442,7 +442,16 @@ const STONES=[
   {type:"lab",cert:"IGI",shape:"Marquise",carat:4.00,color:"F",clarity:"VS1",cut:"Ideal",price:2240,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-4.00-carat-f-color-vs1-clarity-ideal-cut-igi/did/KD-100189028389.html"},
   {type:"lab",cert:"IGI",shape:"Round",carat:2.57,color:"E",clarity:"VVS2",cut:"Ideal",price:1670,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-2.57-carat-e-color-vvs2-clarity-ideal-cut-igi/did/KD-100748440846.html"},
   {type:"lab",cert:"IGI",shape:"Asscher",carat:1.02,color:"D",clarity:"VS2",cut:"Excellent",price:465,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-1.02-carat-d-color-vs2-clarity-excellent-cut-igi/did/EV-LGAS10-67644.html"},
-  {type:"lab",cert:"IGI",shape:"Asscher",carat:3.03,color:"D",clarity:"VVS1",cut:"Ideal",price:4240,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-3.03-carat-d-color-vvs1-clarity-ideal-cut-igi/did/UG-U-10997.html"}
+  {type:"lab",cert:"IGI",shape:"Asscher",carat:3.03,color:"D",clarity:"VVS1",cut:"Ideal",price:4240,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-3.03-carat-d-color-vvs1-clarity-ideal-cut-igi/did/UG-U-10997.html"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:0.90,color:"I",clarity:"SI1",cut:"Very Good",price:1263,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/28565914"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:0.91,color:"I",clarity:"SI1",cut:"Very Good",price:1272,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/30047217"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:0.90,color:"I",clarity:"SI1",cut:"Very Good",price:1358,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/30438414"},
+  {type:"lab",cert:"IGI",shape:"Round",carat:0.90,color:"D",clarity:"VS1",cut:"Ideal",price:476,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/29727585"},
+  {type:"lab",cert:"IGI",shape:"Round",carat:0.90,color:"D",clarity:"VS1",cut:"Ideal",price:496,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/28107143"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:1.90,color:"I",clarity:"SI1",cut:"Excellent",price:9185,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/27257922"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:1.90,color:"H",clarity:"SI1",cut:"Excellent",price:11025,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/30273361"},
+  {type:"lab",cert:"IGI",shape:"Round",carat:1.90,color:"E",clarity:"VS1",cut:"Ideal",price:1500,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/25873171"},
+  {type:"lab",cert:"IGI",shape:"Round",carat:1.90,color:"E",clarity:"VS1",cut:"Ideal",price:1500,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/29831545"},
 ];
 const DATA = STONES.map((d,i)=>({ id:i, type:d.type, cert:d.cert, shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, fair:Math.round(fairPrice(d.type,d.carat,d.color,d.clarity,d.cut,d.shape)), retailer:{name:d.retailer, url:d.url} }));
 
