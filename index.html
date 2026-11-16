@@ -58,6 +58,8 @@
 
   /* Filter panel */
   .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto}
+  .fchev{display:none;margin-left:10px;transition:transform .2s;font-size:13px;color:var(--muted)}
+  .showResults{display:none;width:100%;margin:4px 0 2px;padding:13px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:600;font-size:14px;cursor:pointer}
   .panel .phead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
   .panel .phead h2{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted)}
   .reset{background:none;border:none;color:var(--accent);font-size:12.5px;cursor:pointer;font-weight:600;padding:4px 6px;border-radius:6px}
@@ -154,6 +156,18 @@
     .rowside{align-items:flex-start;text-align:left;min-width:0}
     .cta{width:100%;justify-content:center}
   }
+  /* Mobile filter panel: static + collapsible so results are visible first */
+  @media(max-width:880px){
+    .panel{position:static;max-height:none;overflow:visible}
+    .phead{cursor:pointer;user-select:none}
+    .fchev{display:inline-block;margin-left:auto}
+    .panel .reset{display:none}
+    .panel.open .reset{display:inline-flex}
+    .panel .fgroup,.panel .showResults{display:none}
+    .panel.open .fgroup{display:block}
+    .panel.open .showResults{display:block}
+    .panel.open .fchev{transform:rotate(180deg)}
+  }
 </style>
 </head>
 <body>
@@ -190,7 +204,7 @@
 
     <!-- FILTERS -->
     <aside class="panel" id="panel">
-      <div class="phead"><h2>Filters</h2><button class="reset" id="reset">Reset all</button></div>
+      <div class="phead" id="phead"><h2>Filters</h2><button class="reset" id="reset">Reset all</button><span class="fchev" id="fchev" aria-hidden="true">▾</span></div>
 
       <div class="fgroup">
         <h3>Diamond type</h3>
@@ -249,6 +263,8 @@
         <h3>Certification</h3>
         <div class="chips" id="certChips"></div>
       </div>
+
+      <button type="button" class="showResults" id="showResults">Show results</button>
     </aside>
 
     <!-- RESULTS -->
@@ -679,6 +695,21 @@ document.getElementById("q").addEventListener("keydown",e=>{if(e.key==="Enter")r
 
 syncCarat();syncPrice();
 render();
+
+/* Mobile filters: collapsible panel so results are visible first */
+(function(){
+  var panel=document.getElementById("panel"),phead=document.getElementById("phead");
+  if(phead){phead.addEventListener("click",function(e){
+    if(e.target.closest("#reset"))return;            // let Reset work without toggling
+    if(window.matchMedia("(max-width:880px)").matches) panel.classList.toggle("open");
+  });}
+  var sr=document.getElementById("showResults");
+  if(sr){sr.addEventListener("click",function(){
+    panel.classList.remove("open");
+    var r=document.getElementById("results");
+    if(r) r.scrollIntoView({behavior:"smooth",block:"start"});
+  });}
+})();
 </script>
 </body>
 </html>
