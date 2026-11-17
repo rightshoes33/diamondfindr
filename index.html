@@ -310,12 +310,12 @@ const DIAGRAM={"round": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/
 
 /* ---------- reference data ---------- */
 const SHAPES=["Round","Oval","Cushion","Princess","Emerald","Pear","Radiant","Marquise","Asscher","Heart"];
-const COLORS=["D","E","F","G","H","I","J","K"];
+const COLORS=["D","E","F","G","H","I","J","K","L"];
 const CLARITIES=["FL","IF","VVS1","VVS2","VS1","VS2","SI1","SI2","I1"];
 const CUTS=["Ideal","Excellent","Very Good","Good"];
 const CERTS=["GIA","IGI","VRAI"];
 /* multipliers for the fair-price model */
-const COLOR_M={D:1.30,E:1.22,F:1.15,G:1.06,H:1.00,I:0.90,J:0.80,K:0.72};
+const COLOR_M={D:1.30,E:1.22,F:1.15,G:1.06,H:1.00,I:0.90,J:0.80,K:0.72,L:0.65};
 const CLAR_M={FL:1.45,IF:1.35,VVS1:1.25,VVS2:1.18,VS1:1.10,VS2:1.03,SI1:0.92,SI2:0.82,I1:0.65};
 const CUT_M={"Ideal":1.08,"Excellent":1.06,"Very Good":1.00,"Good":0.90};
 const SHAPE_M={Round:1.15,Oval:1.02,Cushion:0.98,Princess:0.95,Emerald:0.94,Pear:1.00,Radiant:0.96,Marquise:0.97,Asscher:0.92,Heart:0.99};
@@ -470,6 +470,41 @@ const STONES=[
   {type:"natural",cert:"GIA",shape:"Cushion",carat:1.22,color:"I",clarity:"SI1",cut:"Very Good",price:1601,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/29045478"},
   {type:"natural",cert:"GIA",shape:"Cushion",carat:1.23,color:"I",clarity:"SI1",cut:"Ideal",price:1673,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/27194297"},
   {type:"natural",cert:"GIA",shape:"Cushion",carat:1.20,color:"I",clarity:"VS2",cut:"Ideal",price:1752,retailer:"Blue Nile",url:"https://www.bluenile.com/diamond-details/27496668"},
+  {type:"lab",cert:"IGI",shape:"Round",carat:4.03,color:"E",clarity:"VVS2",cut:"Excellent",price:2415,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-4.03-carat-e-color-vvs2-clarity-excellent-cut-igi/did/KD-100758107032.html"},
+  {type:"lab",cert:"IGI",shape:"Oval",carat:3.01,color:"E",clarity:"VVS1",cut:"Ideal",price:3610,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-3.01-carat-e-color-vvs1-clarity-ideal-cut-igi/did/KD-100757161258.html"},
+  {type:"lab",cert:"IGI",shape:"Cushion",carat:2.02,color:"E",clarity:"VS1",cut:"Ideal",price:1260,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-2.02-carat-e-color-vs1-clarity-ideal-cut-igi/did/763506309.html"},
+  {type:"lab",cert:"GIA",shape:"Asscher",carat:2.55,color:"E",clarity:"VVS2",cut:"Excellent",price:1485,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-2.55-carat-e-color-vvs2-clarity-excellent-cut-gia/did/GSD-VL-71337.html"},
+  {type:"lab",cert:"IGI",shape:"Cushion",carat:2.10,color:"E",clarity:"VS1",cut:"Excellent",price:1005,retailer:"Grown Brilliance",url:"https://www.grownbrilliance.com/lab-created-2.10-carat-e-color-vs1-clarity-excellent-cut-igi/did/KD-100760609503.html"},
+  {type:"lab",cert:"VRAI",shape:"Round",carat:1.50,color:"D",clarity:"VVS2",cut:"Ideal",price:2480,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory?diamond=F4000463"},
+  {type:"lab",cert:"VRAI",shape:"Round",carat:1.00,color:"D",clarity:"VVS2",cut:"Ideal",price:1650,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory?diamond=F4000318"},
+  {type:"lab",cert:"VRAI",shape:"Oval",carat:1.51,color:"D",clarity:"VVS2",cut:"Ideal",price:2490,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/oval?diamond=F4000694"},
+  {type:"lab",cert:"VRAI",shape:"Oval",carat:1.00,color:"D",clarity:"VVS2",cut:"Ideal",price:1650,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/oval?diamond=F4000677"},
+  {type:"lab",cert:"VRAI",shape:"Emerald",carat:2.33,color:"D",clarity:"VS1",cut:"Ideal",price:3500,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/emerald?diamond=F658046"},
+  {type:"lab",cert:"VRAI",shape:"Pear",carat:1.01,color:"D",clarity:"VS1",cut:"Ideal",price:1520,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/pear?diamond=F4000778"},
+  {type:"lab",cert:"VRAI",shape:"Radiant",carat:1.58,color:"D",clarity:"VVS2",cut:"Ideal",price:2610,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/radiant?diamond=F636376"},
+  {type:"lab",cert:"VRAI",shape:"Cushion",carat:1.72,color:"D",clarity:"VS2",cut:"Ideal",price:2580,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/cushion?diamond=F607844"},
+  {type:"lab",cert:"VRAI",shape:"Cushion",carat:1.19,color:"E",clarity:"VVS2",cut:"Ideal",price:1880,retailer:"VRAI",url:"https://www.vrai.com/diamonds/inventory/elongated-cushion?diamond=MD0060"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:1.00,color:"H",clarity:"SI1",cut:"Very Good",price:2618,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=5553830394"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:1.79,color:"H",clarity:"SI1",cut:"Excellent",price:12035,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=1242057524"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:1.75,color:"G",clarity:"SI1",cut:"Excellent",price:14006,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=6562583726"},
+  {type:"natural",cert:"GIA",shape:"Princess",carat:1.79,color:"H",clarity:"VS2",cut:"Excellent",price:10661,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=6561711206"},
+  {type:"natural",cert:"GIA",shape:"Princess",carat:2.01,color:"G",clarity:"SI1",cut:"Excellent",price:15188,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=6565618280"},
+  {type:"natural",cert:"GIA",shape:"Radiant",carat:2.01,color:"H",clarity:"SI1",cut:"Excellent",price:18785,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=1569357242"},
+  {type:"natural",cert:"GIA",shape:"Pear",carat:2.00,color:"H",clarity:"SI1",cut:"Excellent",price:20173,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=1555318321"},
+  {type:"natural",cert:"GIA",shape:"Cushion",carat:0.96,color:"F",clarity:"VS2",cut:"Excellent",price:1634,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=2558409472"},
+  {type:"natural",cert:"GIA",shape:"Cushion",carat:1.01,color:"H",clarity:"VS1",cut:"Excellent",price:2389,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=1242098368"},
+  {type:"natural",cert:"GIA",shape:"Asscher",carat:2.01,color:"H",clarity:"SI1",cut:"Excellent",price:13929,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=2567420776"},
+  {type:"natural",cert:"GIA",shape:"Emerald",carat:0.97,color:"F",clarity:"VS2",cut:"Excellent",price:2210,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=6562186391"},
+  {type:"natural",cert:"GIA",shape:"Marquise",carat:0.97,color:"H",clarity:"SI1",cut:"Very Good",price:3699,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=5566677540"},
+  {type:"natural",cert:"GIA",shape:"Oval",carat:0.96,color:"G",clarity:"SI1",cut:"Very Good",price:2741,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=6562675424"},
+  {type:"natural",cert:"GIA",shape:"Heart",carat:1.08,color:"D",clarity:"VS2",cut:"Excellent",price:3491,retailer:"With Clarity",url:"https://www.withclarity.com/products/diamonds?sku=2557666073"},
+  {type:"natural",cert:"GIA",shape:"Round",carat:1.51,color:"H",clarity:"SI1",cut:"Ideal",price:6440,retailer:"Ritani",url:"https://www.ritani.com/products/1-51-carat-round-diamond-ideal-cut-h-color-si1-clarity-gia-6501143166-sku-d-1l2ld5prwe?reco=rec_plp"},
+  {type:"natural",cert:"GIA",shape:"Oval",carat:1.51,color:"I",clarity:"SI1",cut:"Very Good",price:6199,retailer:"Ritani",url:"https://www.ritani.com/products/1-51-carat-oval-diamond-very-good-cut-i-color-si1-clarity-gia-7442409727-sku-d-6b7ur4w073?reco=rec_plp"},
+  {type:"natural",cert:"GIA",shape:"Pear",carat:1.83,color:"J",clarity:"VS1",cut:"Very Good",price:6900,retailer:"Ritani",url:"https://www.ritani.com/products/1-83-carat-pear-diamond-very-good-cut-j-color-vs1-clarity-gia-6451845275-sku-d-6erg8gxuhn?reco=rec_plp"},
+  {type:"natural",cert:"GIA",shape:"Marquise",carat:1.71,color:"L",clarity:"SI2",cut:"Good",price:2758,retailer:"Ritani",url:"https://www.ritani.com/products/1-71-carat-marquise-diamond-good-cut-l-color-si2-clarity-gia-sku-d-1afrkv0pw8"},
+  {type:"natural",cert:"GIA",shape:"Radiant",carat:1.70,color:"H",clarity:"SI1",cut:"Very Good",price:7954,retailer:"Ritani",url:"https://www.ritani.com/products/1-70-carat-radiant-diamond-very-good-cut-h-color-si1-clarity-gia-7456746402-sku-d-6b7urdfag2?reco=rec_plp"},
+  {type:"natural",cert:"GIA",shape:"Princess",carat:1.60,color:"H",clarity:"VS1",cut:"Very Good",price:8843,retailer:"Ritani",url:"https://www.ritani.com/products/1-60-carat-princess-diamond-very-good-cut-h-color-vs1-clarity-gia-1343327370-sku-d-5iuwgj6wei?reco=rec_plp"},
+  {type:"natural",cert:"GIA",shape:"Asscher",carat:1.80,color:"I",clarity:"VS1",cut:"Very Good",price:8445,retailer:"Ritani",url:"https://www.ritani.com/products/1-80-carat-asscher-diamond-very-good-cut-i-color-vs1-clarity-gia-6371790009-sku-d-5iuyrp0b09?reco=rec_plp"},
 ];
 const DATA = STONES.map((d,i)=>({ id:i, type:d.type, cert:d.cert, shape:d.shape, carat:d.carat, color:d.color, clarity:d.clarity, cut:d.cut, price:d.price, fair:Math.round(fairPrice(d.type,d.carat,d.color,d.clarity,d.cut,d.shape)), retailer:{name:d.retailer, url:d.url} }));
 
